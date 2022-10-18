@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sc">
+	<!-- 정보 입력된 전적 수 -->
+	<select id="s_count" resultType="int">
+		select count(*) from score_card where s_id=#{r_id} and s_updated=1
+	</select>
+	
+	<!-- 핸디캡 카운트 -->
+	<select id="sc_handicap" resultType="String">
+		select s_handicap from score_card where s_id=#{id} order by s_sort desc
+	</select>
+	
+	<!-- 퍼팅 카운트 -->
+	<select id="sc_putting" resultType="int">
+		select s_putting from score_card where s_id=#{id} order by s_sort desc
+	</select>
+	
+	<!-- 그래프 카운트 -->
+	<select id="sc_graph" resultType="int">
+		select count(s_date) from score_card where s_id=#{s_id} and s_date like #{graph_date}
+	</select>
+	
+	<!-- 로그인한 경우 순위 -->
+	<select id="sc_row" resultType="String">
+		select r_id from (select * from ranking order by r_sum asc)
+	</select>
+	
+	<!-- 날짜 가져오기 -->
+	<select id="sc_date" resultType="String">
+		select s_date from score_card where s_id=#{id} order by s_sort desc
+	</select>
+	
+	<!-- 베스트스코어 가져오기 -->
+	<select id="sc_bestscore" resultType="int">
+		select s_bestscore from score_card where s_id=#{id} order by s_sort desc
+	</select>
+	
+	<!-- 장소 가져오기 -->
+	<select id="sc_location" resultType="String">
+		select s_location from score_card where s_id=#{id} order by s_sort desc
+	</select>
+	
+	<!-- 비거리 가져오기 -->
+	<select id="sc_range" resultType="int">
+		select s_range from score_card where s_id=#{id} order by s_sort desc
+	</select>
+	
+	<!-- 하루 점수합 가져오기 -->
+	<select id="sc_sumpoint" resultType="int">
+		select s_sumscore from score_card where s_id=#{id} order by s_sort desc <!-- s_avgscore를 s_sumscore로 바꿔야함 -->
+	</select>
+	
+	<!-- 스코어카드 레코드 생성 -->
+	<insert id="sc_auto">
+		insert into score_card(s_id,s_date) values (s_id=#{sc_id},s_date=#{sc_playdate})
+	</insert>
+	
+	<!-- 날짜 구하기 -->
+	<select id="sc_makedate" resultType="String">
+		select s_date from score_card where s_id=#{sc_id} and s_date=#{sc_playdate}
+	</select>
+	
+	<!-- sortdate값 만들기 -->
+	<update id="sc_sort">
+		update score_card set s_sort=#{numdate} where s_id=#{sc_id} and s_date=#{sc_playdate}
+	</update>
+	
+	<!-- scorecard 삭제 -->
+	<delete id="sc_del">
+		delete from score_card where s_id=#{sc_id} and s_date=#{sc_playdate}
+	</delete>
+	
+	<!-- 스코어카드 업데이트 확인여부 -->
+	<select id="sc_update">
+		select s_updated from score_card where s_id=#{sc_id} and s_date=#{sc_playdate}
+	</select>
+	
+	<!-- 스코어카드 업데이트 -->
+	<update id="sc_editCard">
+		update score_card set 
+		s_location=#{s_location},s_putting=#{s_putting},s_range=#{s_range},s_handicap=#{s_handicap},s_bestscore=#{s_bestscore},s_sumscore=#{s_sumscore},s_updated=1 
+		where s_id=#{s_id} and s_date=#{s_date}
+	</update>
+	
+	<!-- 스코어카드 삭제 -->
+	<delete id="sc_delCard">
+		delete from score_card where s_id=#{s_id} and s_date=#{s_date}
+	</delete>
+</mapper>

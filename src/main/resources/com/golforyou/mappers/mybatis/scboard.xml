@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Scb">
+	<!-- 게시판 리스트 카운트 -->
+	<select id="scb_count" resultType="int">
+		select count(sc_no) from scboard 
+		<where>
+			<if test="find_field == ''"></if> <!-- 검색전 기준 : 총레코드 개수 -->
+			<if test="find_field == 'sc_All'"> 
+				sc_title like #{find_name} or sc_cont like #{find_name} 
+			</if> 
+			<if test="find_field == 'sc_cont'"> <!-- 내용기준 -->
+				sc_cont like #{find_name}
+			</if>
+			<if test="find_field == 'sc_id'"> <!-- 내용기준 -->
+				sc_id like #{find_name}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 게시판 내용 -->
+	<select id="scb_list" parameterType="scb" resultType="scb">
+		select * from (
+		select rowNum rNum,sc_no,sc_id,sc_title,sc_hit,sc_ref,sc_step,sc_level,sc_date from(
+		select * from scboard
+		<where>
+			<if test="find_field == ''"></if> <!-- 검색전 기준. 검색어 입력하지 않으면 전체목록 -->
+			<if test="find_field == 'sc_All'"> <!-- 제목기준 -->
+				sc_title like #{find_name} or sc_cont like #{find_name} <!-- like는 ~와 비슷한 문자를 검색하는 검색연산자 키워드 -->
+			</if> 
+			<if test="find_field == 'sc_cont'"> <!-- 내용기준 -->
+				sc_cont like #{find_name}
+			</if>
+			<if test="find_field == 'sc_id'"> <!-- 내용기준 -->
+				sc_id like #{find_name}
+			</if>
+		</where>
+		order by sc_ref desc,sc_level asc
+		)
+		)
+		where rNum &gt;=#{startrow} and rNum &lt;=#{endrow}
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="scb_hit">
+		update scboard set sc_hit=sc_hit+1 where sc_no=#{sc_no}
+	</update>
+	
+	<!-- 내용보기 -->
+	<select id="scb_cont" parameterType="scb" resultType="scb">
+		select sc_no,sc_id,sc_title,sc_cont,sc_file,sc_hit from scboard where sc_no=#{sc_no}
+	</select>
+	
+	<!-- 글쓰기 -->
+	<insert id="scb_write">
+		insert into scboard(sc_no,sc_id,sc_title,sc_playdate,sc_cont,sc_file,sc_ref,sc_step,sc_level,sc_date) 
+		values(test_scboard_seq.nextval,#{sc_id},#{sc_title},#{sc_playdate},#{sc_cont},#{sc_file},test_scboard_seq.nextval,0,0,sysdate)
+	</insert>
+	
+	<!-- 답변레벨 증가 -->
+	<update id="scb_reply">
+		update scboard set sc_level=sc_level+1 where sc_ref=#{sc_ref} and sc_level > #{sc_level}
+	</update>
+	
+	<!-- 답변쓰기 -->
+	<insert id="scb_reply2">
+		insert into scboard (sc_no,sc_id,sc_title,sc_cont,sc_ref,sc_step,sc_level,sc_date) 
+		values(test_scboard_seq.nextval,#{sc_id},#{sc_title},#{sc_cont},#{sc_ref},#{sc_step}+1,#{sc_level}+1,sysdate)
+	</insert>
+	
+	<!-- 게시물 수정 -->
+	<update id="scb_edit">
+		update scboard set sc_title=#{sc_title},sc_playdate=#{sc_playdate},sc_cont=#{sc_cont},sc_file=#{sc_file} where sc_no=#{sc_no}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="scb_del">
+		delete from scboard where sc_no=#{sc_no}
+	</delete>
+	
+	<!-- 스코어카드 내용 가져오기 -->
+	<select id="scb_cont2" resultType="scb">
+		select * from scboard where sc_no=#{sc_no} and sc_playdate=#{sc_playdate}
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+.adminInsertCard_main{
+	position:relative;
+	background:rgba(0,0,0,0); width:1500px; height:1000px; text-align:center;
+	margin:140px 0px 0px 0px;
+	border:none;
+	margin-right:auto; margin-left:auto;
+	z-index:0;
+	top:100px;
+	font-size:1.2em;
+}
+#imginfo_wrap{
+	position:relative;
+	left:40%;
+	width:25%;
+}
+.admin_info{
+	position:relative;
+	float:left;
+	height:45px;
+}
+#admin_id{
+	color:rgba(0,0,0,0.5);
+	font-style: italic;
+}
+#admin_playdate{
+	color:rgba(0,0,0,0.5);
+	font-style: italic;
+}
+.admin_btn{
+	position:relative;
+	float:left;
+	height:45px;
+}
+.sc_date{
+	position:relative;
+	width:33px;
+	color:#000;
+	font-size:18px;
+	border:none;
+}
+input[type="date"].sc_date::-webkit-calendar-picker-indicator{
+    margin-left: 10px;    
+}
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #fff;
+}
+input[type="text"]{
+	font-size:18px;
+	border:none;
+	border_bottom:1px solid #000;
+}
+.CheckBtn_admin {
+  font-size: 14px;
+  border: none;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 3px;
+  width: 100px;
+  background-color: #c0c0c0;
+  margin-bottom: 30px;
+  color: #000000;
+  cursor: pointer;
+}

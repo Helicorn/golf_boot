@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+		<select id="member_read" parameterType="member" resultType="member"> 	 
+ 	 		select * from golformemberNew where m_id=#{m_id,jdbcType=VARCHAR} and m_state=1
+ 	 	</select>
+ 	 	
+ 	 	<insert id="member_in">
+ 		 	insert into golformemberNew (m_no,m_id,m_pw,m_phone,m_email,m_gender,m_date,m_state,salt)
+ 		 	values (m_golf_seq.nextval,#{m_id,jdbcType=VARCHAR},#{m_pw,jdbcType=VARCHAR},#{m_phone},#{m_email},#{m_gender},sysdate,1,#{salt})
+ 	 	</insert>
+ 	 	
+ 	 	<select id="id_check" parameterType="member" resultType="member">
+ 	 		select * from golformemberNew where m_id=#{m_id,jdbcType=VARCHAR}
+ 	 	</select>
+ 	 	
+ 	 	<select id="salt_check" resultType="String">
+ 	 		select salt from golformemberNew where m_id=#{m_id,jdbcType=VARCHAR}
+ 	 	</select>
+ 	 	
+ 	 	<!-- 회원 정보 수정 -->
+ 	 	<update id="update_member">
+ 	 		update golformemberNew set m_phone=#{m_phone}, m_addr=#{m_addr}, m_email=#{m_email}, m_file=#{m_file} where m_id=#{m_id,jdbcType=VARCHAR}
+ 	 	</update>
+ 	 	
+ 	 	<update id="update_province">
+ 	 		update ranking set r_province=#{r_province} where r_id=#{r_id,jdbcType=VARCHAR}
+ 	 	</update>
+ 	 	
+ 	 	<!-- 회원 탈퇴 기능 -->
+ 	 	<update id="withdrawal">
+ 	 		update golformemberNew set m_delcont=#{m_delcont}, m_deldate=sysdate, m_state=2 where m_id=#{m_id,jdbcType=VARCHAR}
+ 	 	</update>
+ 	 	
+ 	 	 <select id="getMember" resultType="member">
+ 	 		select * from golformemberNew where m_id=#{m_id,jdbcType=VARCHAR}
+ 	 	</select>
+ 	 	
+ 	 	
+</mapper>

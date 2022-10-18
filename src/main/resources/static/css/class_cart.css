@@ -1,0 +1,353 @@
+@charset "UTF-8";
+
+/* font */
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 100;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 300;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 400;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 500;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 700;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 900;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf)
+		format('opentype');
+}
+
+* {
+	font-family: 'Noto Sans KR', sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#wrap {
+	width: 90%;
+	margin: 0 auto;
+	top: 250px;
+	/* border: 1px solid #ccc; */
+	height: 1000px;
+	position: relative;
+}
+
+#wrap .cart_wrap {
+	width: 100%;
+	margin: 0 auto;
+	/* 	border: 1px solid red;*/
+	height: 10%;
+	overflow: hidden;
+}
+
+#wrap .cart_wrap .cart {
+	width: 20%;
+	margin: 0 auto;
+	/* 	border: 1px solid gray;
+ */
+	height: 40%;
+	float: left;
+	font-size: 1.8em;
+	font-weight: bold;
+}
+
+#wrap .cart_wrap .cart_process {
+	width: 20%;
+	margin: 0 auto;
+	/* 	border: 1px solid gray;
+ */
+	height: 40%;
+	float: right;
+	font-size: 1.2em;
+	text-align: right;
+}
+
+#wrap #order_wrap {
+	width: 75%;
+	height: 90%;
+	border: 1px solid blue;
+	float: left;
+	box-sizing: border-box;
+}
+
+#wrap #bill_wrap {
+	width: 25%;
+	height: 90%;
+	/* border: 1px solid gray; */
+	float: right;
+	box-sizing: border-box;
+}
+
+#wrap #bill_wrap #bill_mini {
+	width: 90%;
+	height: 90%;
+	border: 1px solid #ccc;
+	float: right;
+	box-sizing: border-box;
+	overflow: hidden;
+	color: #555969;
+}
+
+#bill_mini .order_info {
+	width: 90%;
+	height: 7%;
+	/* 	border: 1px solid #ccc;
+ */
+	float: left;
+	margin-left: 7%;
+	margin-top: 9%;
+	box-sizing: border-box;
+	font-size: 2.3em;
+	color: black;
+}
+
+#bill_mini .service_sum {
+	width: 80%;
+	height: 5%;
+	/* 	border: 1px solid #ccc;
+ */
+	box-sizing: border-box;
+	float: left;
+	margin-left: 9%;
+	margin-top: 9%;
+}
+
+.service_sum .service_hanguel {
+	width: 50%;
+	height: 100%;
+	/* 	border: 1px solid blue;
+ */
+	box-sizing: border-box;
+	float: left;
+	font-size: 1.2em;
+}
+
+.service_sum .service_money {
+	width: 50%;
+	height: 100%;
+	/* 	border: 1px solid blue;
+ */
+	box-sizing: border-box;
+	float: right;
+	font-size: 1.2em;
+	text-align: right;
+}
+
+#bill_mini .delivery {
+	width: 80%;
+	height: 5%;
+	/* 	border: 1px solid #ccc;
+ */
+	box-sizing: border-box;
+	float: left;
+	margin-left: 9%;
+}
+
+.delivery .delivery_hanguel {
+	width: 50%;
+	height: 100%;
+	/* 	border: 1px solid blue;
+ */
+	box-sizing: border-box;
+	float: left;
+	font-size: 1.2em;
+}
+
+.delivery .delivery_money {
+	width: 50%;
+	height: 100%;
+	/* 	border: 1px solid blue;
+ */
+	box-sizing: border-box;
+	float: right;
+	font-size: 1.2em;
+	text-align: right;
+}
+
+#bill_mini .discount {
+	width: 80%;
+	height: 5%;
+	/* 	border: 1px solid #ccc;
+ */
+	box-sizing: border-box;
+	float: left;
+	margin-left: 9%;
+}
+
+.discount .discount_hanguel {
+	width: 50%;
+	height: 100%;
+	/* 	border: 1px solid blue;
+ */
+	box-sizing: border-box;
+	float: left;
+	font-size: 1.2em;
+}
+
+.discount .discount_money {
+	width: 50%;
+	height: 100%;
+	/* 	border: 1px solid blue;
+ */
+	box-sizing: border-box;
+	float: right;
+	font-size: 1.2em;
+	text-align: right;
+}
+
+#bill_mini .line {
+	width: 80%;
+	height: 1%;
+	border-top: 1px solid #ccc;
+	float: left;
+	margin-left: 9%;
+	margin-top: 10%;
+}
+
+#bill_mini .totalPay {
+	width: 78%;
+	height: 6%;
+	/* border: 1px solid #ccc; */
+	box-sizing: border-box;
+	float: left;
+	margin-left: 10%;
+	margin-top: 8%;
+}
+
+.totalPay .total_hanguel {
+	width: 50%;
+	height: 100%;
+	line-height: 200%;
+	/* border: 1px solid blue; */
+	box-sizing: border-box;
+	float: left;
+	font-size: 1.2em;
+}
+
+.totalPay .total_money {
+	width: 50%;
+	height: 100%;
+	line-height: 130%;
+	/* border: 1px solid blue; */
+	box-sizing: border-box;
+	float: right;
+	font-size: 2em;
+	color: black;
+	text-align: right;
+	font-weight: bold;
+}
+
+#bill_mini .guide_box {
+	width: 100%;
+	height: 30%;
+	/* border: 1px solid #ccc; */
+	margin-top: 10%;
+	box-sizing: border-box;
+	float: left;
+	background-color: #FAFAFA;
+}
+
+.guide_box .guide01 {
+	width: 90%;
+	height: 10%;
+	/* border: 1px solid #ccc; */
+	margin-top: 10%;
+	margin-left: 5%; box-sizing : border-box;
+	float: left;
+	color: black;
+	font-size: 1.1em;
+	font-weight: bold;
+	box-sizing: border-box;
+}
+
+.guide_box .guide02 {
+	width: 90%;
+	height: 20%;
+	/* border: 1px solid #ccc; */
+	margin-top: 5%;
+	margin-left: 5%;
+	box-sizing: border-box;
+	float: left;
+	font-size: 1em;
+}
+
+.guide_box .guide03 {
+	width: 90%;
+	height: 20%;
+	/* border: 1px solid #ccc; */
+	margin-top: 5%;
+	margin-left: 5%;
+	box-sizing: border-box;
+	float: left;
+	font-size: 1em;
+}
+
+#bill_mini .btn01 {
+	width: 85%;
+	height: 8%;
+	margin-top: 9%;
+	margin-left: 7%;
+	float: left;
+	background-color: #56F569;
+	cursor: pointer;
+	border: none;
+	font-size: 1.5em;
+	color: black;
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	
+	<!-- 게시물 작성 -->
+	<insert id="board_write">
+		insert into golforboard (b_no,m_id,b_title,b_pwd,b_cont,b_file,b_ref,b_step,b_level,b_date)
+		values(b_no_seq.nextval, #{m_id}, #{b_title}, #{b_pwd}, #{b_cont}, #{b_file}, b_no_seq.nextval, 0, 0, sysdate)
+	</insert>
+		
+	<!-- 게시물 개수 -->
+	<select id="board_count" resultType="int">
+		select count(b_no) from golforboard
+	</select>
+	
+	<!-- 목록 -->
+	<select id="board_list" resultType="List">
+	select * from (
+	select rowNum rNum, b_no, m_id, b_title, b_hit, b_ref, b_step,
+	b_level, b_date
+	from (select * from golforboard	
+		<where>
+			<if test="find_field == ''"></if><!-- 검색어를 입력하지 않은 경우 => 전체목록 -->
+			<if test="find_field == 'b_title'"><!-- 제목 기준으로 검색한 경우 -->
+				b_title like #{find_name} <!-- like는 ~와 비슷한 문자를 검색하는 검색연산자 -->
+			</if>
+			<if test="find_field == 'b_cont'"><!-- 내용 기준으로 검색한 경우 -->
+				b_cont like #{find_name}
+			</if>
+		</where>
+	order by b_ref desc, b_level asc)) where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
+	<!-- &gt;=은 >=의 뜻, &lt;는 <=의 뜻 -->
+	</select>
+	
+	
+	
+</mapper>

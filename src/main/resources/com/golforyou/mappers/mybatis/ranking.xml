@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rank">
+	<!-- 랭킹 수 -->
+	<select id="rank_count" resultType="java.lang.Integer">
+		select count(*) from ranking
+	</select>
+	
+	<!-- 랭킹 수2 -->
+	<select id="rank_count2" resultType="int">
+		select count(*) from ranking where r_province=#{r_province}
+	</select>
+	
+	<!-- 랭킹 점수순으로 id정렬 -->
+	<select id="rank_id" resultType="String">
+		select r_id from ranking order by r_sum asc
+	</select>
+	
+	<!-- 랭킹 점수순으로 점수정렬 -->
+	<select id="rank_point" resultType="int">
+		select r_sum from ranking order by r_sum asc
+	</select>
+	
+	<!-- 랭킹 점수순으로 최대비거리정렬 -->
+	<select id="rank_range" resultType="int">
+		select r_maxrange from ranking order by r_sum asc <!-- ranking에 r_maxrange 컬럼 다시 추가해야함 -->
+	</select>
+	
+	<!-- 랭킹 점수순으로 주소지정렬 -->
+	<select id="rank_prov" resultType="String">
+		select r_province from ranking order by r_sum asc
+	</select>
+	
+	<!-- 로그인한 회원의 점수 -->
+	<select id="rank_loginpoint" resultType="int">
+		select r_sum from ranking where r_id=#{r_id}
+	</select>
+
+	<!-- 평균(사실은 총합)점수 업데이트 -->
+	<update id="sc_editAvg">
+		update ranking set r_sum=#{s_sumscore} where r_id=#{s_id}
+	</update>
+</mapper>

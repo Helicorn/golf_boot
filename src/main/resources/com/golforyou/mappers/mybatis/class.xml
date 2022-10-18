@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="class">
+
+	<!-- 클래스 개수 -->
+	<select id="class_count" resultType="int">
+		select count(c_no) from golf_class
+	</select>
+
+	<!-- 클래스 목록 -->
+	<select id="class_list" parameterType="class" resultType="class">
+		select * from (
+		select rowNum rNum, c_no, c_title, c_techaer, c_price
+		from (select * from golf_class
+		<where>
+			<if test="c_find_field == ''"></if><!-- 검색어를 입력하지 않은 경우 => 전체목록 -->
+			<if test="c_find_field == 'c_title'"><!-- 제목 기준으로 검색한 경우 -->
+				c_title like #{c_find_name} <!-- like는 ~와 비슷한 문자를 검색하는 검색연산자 -->
+			</if>
+			<if test="c_find_field == 'c_teacher'"><!-- 강사 기준으로 검색한 경우 -->
+				c_teacher like #{c_find_name}
+			</if>
+		</where>
+		where rNum &gt;= #{c_startrow} and
+		rNum &lt;= #{c_endrow}
+		<!-- &gt;=은 >=의 뜻, &lt;는 <=의 뜻 -->
+	</select>
+
+</mapper>
