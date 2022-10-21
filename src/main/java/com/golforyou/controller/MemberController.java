@@ -1,17 +1,25 @@
 package com.golforyou.controller;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,9 +33,11 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	
 		
 	//로그인 	
-	@GetMapping("login")
+	@GetMapping("login2")
 	public String login() {
 		return "member/login"; //뷰페이지 경로 WEB-INF/views/member/login.jsp		
 	}//login()
@@ -41,15 +51,15 @@ public class MemberController {
 		PrintWriter out=response.getWriter();
 		//
 		
-		String salt = memberService.getSaltById(m.getM_id());
-		System.out.println("salt:" +salt);
-		
+		//String salt = memberService.getSaltById(m.getM_id());
+		//System.out.println("salt:" +salt);
+		m.setM_pw(request.getParameter("m_pw"));
 		String m_pw = m.getM_pw();
 		System.out.println("평문pw:" +m_pw);
 		
-		salt_pw = SHA256Util.getEncrypt(m_pw, salt);
-		System.out.println("dBpw:" + salt_pw);
-		m.setM_pw(salt_pw);
+		//salt_pw = SHA256Util.getEncrypt(m_pw, salt);
+		//System.out.println("dBpw:" + salt_pw);
+		//m.setM_pw(salt_pw);
 		
 		MemberVO pw=this.memberService.Login(m.getM_id());//아이디를 기준으로 정보를 DB로부터 가져옴 
 		
@@ -68,7 +78,7 @@ public class MemberController {
 			}else {
 				session.setAttribute("id", m.getM_id());//세션 id에 아이디를 저장 
 				session.setAttribute("pw", pw.getM_id());
-
+				
 			}
 			return new ModelAndView("redirect:/");
 		}

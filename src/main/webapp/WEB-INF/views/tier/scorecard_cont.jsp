@@ -31,7 +31,7 @@
 			<tr height="15%">
 				<th>
 				<div class="sccont_image">
-					<img src="/upload/${sb.sc_file }" width="800px" height="200px" alt="스코어카드">
+					<img src="/upload${sb.sc_file }" width="800px" height="200px" alt="스코어카드">
 				</div>
 			</tr>
 			<tr height="58%">

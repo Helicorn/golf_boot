@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 글쓰기 -->
 	<insert id="scb_write">
 		insert into scboard(sc_no,sc_id,sc_title,sc_playdate,sc_cont,sc_file,sc_ref,sc_step,sc_level,sc_date) 
-		values(test_scboard_seq.nextval,#{sc_id},#{sc_title},#{sc_playdate},#{sc_cont},null,test_scboard_seq.nextval,0,0,sysdate)
+		values(test_scboard_seq.nextval,#{sc_id},#{sc_title},#{sc_playdate},#{sc_cont},#{sc_file},test_scboard_seq.nextval,0,0,sysdate)
 	</insert>
 	
 	<!-- 답변레벨 증가 -->
