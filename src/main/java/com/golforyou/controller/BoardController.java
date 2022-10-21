@@ -1,13 +1,17 @@
 package com.golforyou.controller;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +21,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.golforyou.service.BoardService;
 import com.golforyou.vo.BoardVO;
+import com.google.gson.JsonObject;
 
 
 @Controller
@@ -44,9 +51,42 @@ public class BoardController {
 		
 	}//board_write()
 	
+	//summernotefile 저장 
+	@PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
+	@ResponseBody
+	public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
+		
+		JsonObject jsonObject = new JsonObject();
+		
+		String fileRoot = "C:\\summernote_image\\";	//저장될 외부 파일 경로
+		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
+		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+				
+		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+		
+		File targetFile = new File(fileRoot + savedFileName);	
+		
+		try {
+			InputStream fileStream = multipartFile.getInputStream();
+			FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
+			jsonObject.addProperty("url", "/summernoteImage/"+savedFileName);
+			jsonObject.addProperty("responseCode", "success");
+				
+		} catch (IOException e) {
+			FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
+			jsonObject.addProperty("responseCode", "error");
+			e.printStackTrace();
+		}
+		
+		return jsonObject;
+	}
+	
+	
+	
+	
 	//게시판 글쓰기 저장
 	//이진파일 업로드 하는 방법 3가지 이상이 있다고 함. 다른 방법도 찾아보기 
-	@PostMapping("/board_write_ok")
+	@RequestMapping("/board_write_ok")
 	public String board_write_ok(BoardVO b, HttpServletRequest request) throws Exception{
 		String saveFolder=request.getRealPath("/upload"); 
 		//이진 파일 업로드 서버 경로 => 톰캣 WAS서버에 의해서 변경된 실제 경로 하위의 upload폴더
@@ -56,7 +96,7 @@ public class BoardController {
 		
 		multi=new MultipartRequest(request,saveFolder,fileSize,"UTF-8");
 		
-		String m_id=multi.getParameter("m_id");
+		String id=multi.getParameter("username");
 		String b_title=multi.getParameter("b_title");
 		String b_pwd=multi.getParameter("b_pwd");
 		String b_cont=multi.getParameter("b_cont");
@@ -181,7 +221,7 @@ public class BoardController {
 			}//board_cont()
 			
 			//답변저장 
-			@RequestMapping(value="/board_reply_ok", method=RequestMethod.POST)
+			@RequestMapping(value="/board_reply_ok")
 			public String board_reply_ok(BoardVO rb, int page) {
 				/*boardVO rb는 피라미터 이름과 빈클래스 변수명이 같으면 rb객체에 값이 저장되어 있다. page만 빼고, 이유는 
 				 * page는 빈클래스에 동일 변수명으로 정의되어 있지 않다. 
@@ -196,7 +236,7 @@ public class BoardController {
 			throws Exception{
 				response.setContentType("text/html;charset=UTF-8");//브라우저에 출력되는 문자와 태그 언어 코딩타입을 설정
 				PrintWriter out=response.getWriter();
-				String saveFolder=request.getRealPath("/resources/upload");//이진파일 업로드 실제 경로를 구함.
+				String saveFolder=request.getRealPath("/upload");//이진파일 업로드 실제 경로를 구함.
 				int fileSize=5*1024*1024; //이진파일 업로드 최대 크기 
 				
 				MultipartRequest multi=null;//첨부한 파일을 받을 참조변수 
@@ -207,7 +247,7 @@ public class BoardController {
 						if(multi.getParameter("page") !=null) {
 							page=Integer.parseInt(multi.getParameter("page"));
 						}
-						String m_id=multi.getParameter("m_id");
+						String username=multi.getParameter("username");
 						String b_title=multi.getParameter("b_title");
 						String b_pwd=multi.getParameter("b_pwd");
 						String b_cont=multi.getParameter("b_cont");
@@ -259,7 +299,7 @@ public class BoardController {
 										eb.setB_file(fileDBName);
 									}
 								}//수정 첨부파일을 첨부한 경우와 안한 경우 분기 조건문
-							eb.setB_no(b_no); eb.setM_id(m_id); eb.setB_title(b_title); eb.setB_cont(b_cont);
+							eb.setB_no(b_no); eb.setUsername(username); eb.setB_title(b_title); eb.setB_cont(b_cont);
 							
 							this.boardService.editboard(eb);//번호를 기준으로 글쓴이, 글제목, 글내용, 첨부파일 수정 
 							
@@ -280,7 +320,7 @@ public class BoardController {
 			throws Exception{
 				response.setContentType("text/html; charset=UTF-8");
 				PrintWriter out=response.getWriter();
-				String up=request.getRealPath("/resources/upload");
+				String up=request.getRealPath("/upload");
 				
 				BoardVO db_pwd=this.boardService.getBoardCont2(b_no);
 				if(!db_pwd.getB_pwd().equals(del_pwd)) {

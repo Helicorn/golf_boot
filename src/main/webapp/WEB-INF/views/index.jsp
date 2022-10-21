@@ -81,7 +81,11 @@
     <nav> 
    
     <c:if test="${empty id}">
-    <div id="login"><a href="login2" class=btn1>로그인</a> | <a href="join" class=btn1>회원가입</a></div></c:if>
+
+  
+    <div id="login"><a href="login" class=btn1>로그인</a> | <a href="join" class=btn1>회원가입</a></div>
+    </c:if>
+
     
     <c:if test="${!(empty id) && !(id=='admin')}"><div id="login"><a href="mypage" class=btn1>마이페이지</a> | <a href="/logout" class=btn1>로그아웃</a></div>
     </c:if>

@@ -31,15 +31,15 @@
 <script src="/js/jquery.js"></script>
 <script>
    function login_check() {
-      if ($.trim($('#m_id').val()) == '') {//trim()함수는 양쪽 공백을 제거
+      if ($.trim($('#username').val()) == '') {//trim()함수는 양쪽 공백을 제거
          alert('아이디를 입력하세요!');
-         $('#m_id').val('').focus();
+         $('#username').val('').focus();
          return false;
       }
 
-      if ($.trim($('#m_pw').val()) == '') {
+      if ($.trim($('#password').val()) == '') {
          alert('비밀번호를 입력하세요!');
-         $('#m_pw').val('').focus();
+         $('#password').val('').focus();
          return false;
          
       }
@@ -47,11 +47,12 @@
 </script>
 <c:if test="${empty id}"> <%--id가 비어 있다면~ 로그인 전 화면 --%>
 <div class="loginForm">
-<form method="post" class="loginFormin" action="/login_ok" onsubmit="return login_check();">
-<input type="text" name="m_id" id="m_id" class="textField" placeholder="아이디"><br>
-<input type="password" name="m_pw" id="m_pw" class="textField" placeholder="비밀번호"><br>
+<form method="post" class="loginFormin" action="/loginOk" onsubmit="return login_check();" enctype="application/x-www-form-urlencoded" >
+<input type="text" name="username" id="username" class="textField" placeholder="아이디"><br>
+<input type="password" name="password" id="password" class="textField" placeholder="비밀번호"><br>
 <input type=submit class="submitBtn" value=로그인>
-<input type=checkbox name="maintainlogin" class="checkbox" value=로그인상태유지><span>로그인 상태 유지</span><br>
+<input type=checkbox name="remember-me" id="remember-me" class="checkbox" value=로그인상태유지><span>로그인 상태 유지</span><br>
+<div><a href="/oauth2/authorizaion/google"><i class="fab fa-google"></i>구글로 로그인</a></div>
 </form> 
 <div class="links">
 <input type="button" class="a" value="회원가입" onclick="location='/join';" />
