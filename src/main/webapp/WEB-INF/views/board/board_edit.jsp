@@ -92,7 +92,7 @@
   	 <tr><td>  <input type="hidden" name="b_no" value="${bc.b_no}"/> <%--번호가 전달 --%>
     <input type="hidden" name="page" value="${page}" /> <%--페이징 쪽나누기에서 책갈피 기능을 구현하기
          위해서 히든으로 쪽번호를 전달.책갈피 기능이란 내가 본 페이지 번호로 바로 이동하는 것을 말한다. --%>     
-         <input type="hidden" name="m_id" id="m_id" value="${id}"/></td></tr>
+         <input type="hidden" name="username" id="username" value="${id}"/></td></tr>
     
      <tr>
       <td>제목</td>

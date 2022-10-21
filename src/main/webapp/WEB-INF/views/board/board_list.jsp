@@ -79,7 +79,7 @@ function Change(idx){
      		 <a href="board_cont?b_no=${b.b_no}&page=${page}&state=cont">${b.b_title}</a>
     		</td>
 			
-       			<td class="boardWriter">${b.m_id}</td>
+       			<td class="boardWriter">${b.username}</td>
          		<td class="boardDate">${b.b_date}</td>
          		<td class="boardlike"><i class="fas fa-heart" style="color:#56F569"></i>&nbsp;&nbsp;&nbsp;${b.b_like}</td>
      			<td class="boardView">${b.b_hit}</td>
@@ -112,7 +112,7 @@ function Change(idx){
         			 </c:if>>제목</option>
 					<option value="b_cont" <c:if test="${find_field =='b_cont'}">${'selected'}
         			 </c:if>>내용</option>
-					<option value="m_id" <c:if test="${find_field =='m_id'}">${'selected'}
+					<option value="username" <c:if test="${find_field =='username'}">${'selected'}
         			 </c:if>>글쓴이</option> 
 				
 				<%-- 댓글때문에 테이블 작업 다시 해야함 *** 	
@@ -135,9 +135,11 @@ function Change(idx){
 				</div>
 				
 		<div class="fr">
-		 <c:if test="${!empty id}">
+		<%-- 로그인 되면 다시 적용하기 -- --%>
+		
+		<%--  <c:if test="${!empty id}"> --%>
 			<input type="button" name="write" value="쓰기" onclick="location='board_write?page=${page}';"> <%--책갈피 기능 --%>
-		 </c:if>
+		 <%-- </c:if>--%>
 		</div>
 	<br><br>
 	</div>

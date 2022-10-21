@@ -12,7 +12,7 @@ $("#like").on("click", function () {
 	$.ajax({
       url: '/board/board_cont',
       type: 'POST',
-      data: { 'b_no': b_no, 'm_id': m_id },
+      data: { 'b_no': b_no, 'username': username },
       success: function (data) {
           if (data == 1) {             
               location.reload();
@@ -75,7 +75,7 @@ function openDelCheck(){
 	<form method="post" name="deletefrm">
    <input type="button" class="CheckBtn"  value="답변" onclick="location=
 	   'board_cont.do?b_no=${bc.b_no}&page=${page}&state=reply';" />
-	<c:if test="${id == bc.m_id}">
+	<c:if test="${id == bc.username}">
    <input type="button" class="CheckBtn"  value="수정" onclick="location=
 	   'board_cont.do?b_no=${bc.b_no}&page=${page}&state=edit';" />
 	   
@@ -86,7 +86,7 @@ function openDelCheck(){
 
 	 </c:if> 
 	    <input type="button" class="CheckBtn" class="buttontd" value="목록" onclick="location='board_list.do?page=${page}';" />	   	   	   
-	 <c:if test="${id != bc.m_id}">
+	 <c:if test="${id != bc.username}">
 	 <c:if test="${!empty bc.b_like}">
    <input type="button" class="CheckBtn" id=like value="좋아요" onclick="return like();"/></input>
 	</c:if>
