@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 스코어카드 레코드 생성 -->
 	<insert id="sc_auto">
-		insert into score_card(s_id,s_date) values (s_id=#{sc_id},s_date=#{sc_playdate})
+		insert into score_card(s_id,s_date,s_updated) values (#{sc_id},#{sc_playdate},0)
 	</insert>
 	
 	<!-- 날짜 구하기 -->
@@ -76,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!-- 스코어카드 업데이트 확인여부 -->
-	<select id="sc_update">
+	<select id="sc_update" resultType="int">
 		select s_updated from score_card where s_id=#{sc_id} and s_date=#{sc_playdate}
 	</select>
 	
@@ -91,4 +91,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="sc_delCard">
 		delete from score_card where s_id=#{s_id} and s_date=#{s_date}
 	</delete>
+	
+	<!-- 업데이트 해야할 스코어카드 갯수 찾기 -->
+	<select id="sc_needCount" resultType="int">
+		select count(*) from score_card where s_updated=0
+	</select>
+	
+	<!-- 업데이트 해야할 스코어카드 목록 -->
+	<select id="sc_needList" resultType="sc">
+		select s_id,s_date from score_card where s_updated=0
+	</select>
 </mapper>

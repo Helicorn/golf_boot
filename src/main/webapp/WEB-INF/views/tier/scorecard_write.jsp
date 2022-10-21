@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="/css/board.css" />
 <br>
 
-<script src="/resources/js/jquery.js"></script>
+<script src="/js/jquery.js"></script>
 
 <%-- 스코어카드 게시판 글쓰기페이지 본문 --%>
 
@@ -48,7 +48,7 @@
 					<hr class="scwrite_hr">
 				</td>
 				<td width="60%">
-					<input type="file" name="sc_file" id="sc_file" onchange="document.getElementById('file_route').value = this.value">
+					<input type="file" name="file" id="sc_file" onchange="document.getElementById('file_route').value = this.value">
 					<label for="sc_file" class="file_upload_button_sc">파일 등록</label>
 					<input type="text" readonly id="file_route" value="스코어카드 사진을 올리세요">
 					<hr class="scwrite_hr">

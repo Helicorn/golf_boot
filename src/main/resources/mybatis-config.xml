@@ -5,6 +5,9 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 	
 <configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
 	<typeAliases>
 		<typeAlias type="com.golforyou.vo.MemberVO" alias="member"/>
         <typeAlias type="com.golforyou.vo.BoardVO" alias="board"/>

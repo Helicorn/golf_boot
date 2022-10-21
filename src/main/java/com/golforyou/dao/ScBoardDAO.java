@@ -33,5 +33,10 @@ public interface ScBoardDAO {
 
 	void delCard(ScorecardVO sv);
 
-	
+	void delCard(ScboardVO sb);
+
+	int getNeedUpdateScorecardCount();
+
+	List<ScorecardVO> getNeedUpdateScorecardList();
+
 }

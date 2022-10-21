@@ -15,7 +15,7 @@
     <nav class="headerNav"> 
    
     <c:if test="${empty id}">
-    <div id="login"><a href="login" class=btn1>로그인</a> | <a href="join" class=btn1>회원가입</a></div></c:if>
+    <div id="login"><a href="login2" class=btn1>로그인</a> | <a href="join" class=btn1>회원가입</a></div></c:if>
     
     <c:if test="${!(empty id) && !(id=='admin')}"><div id="login"><a href="mypage" class=btn1>마이페이지</a> | <a href="logout" class=btn1>로그아웃</a></div>
     </c:if>
@@ -33,16 +33,16 @@
      <%--상단 메뉴 --%>
      
      <ul>
-      <li><a href="/tier/ranking"class=btn1>랭킹</a>
+      <li><a href="/ranking"class=btn1>랭킹</a>
        <ul>
-       <li><a href="/tier/ranking">전체기록</a></li>
-       <li><a href="/tier/indivrank">개인기록</a></li>
+       <li><a href="/ranking">전체기록</a></li>
+       <li><a href="/indivrank">개인기록</a></li>
        </ul>
        </li>
       <li><a href="/board_list" class=btn1>게시판</a>
        <ul>      
        <li><a href="/board_list">자유게시판</a></li>
-       <li><a href="/tier/scorecard_list">스코어카드<br>게시판</a></li>
+       <li><a href="/scorecard_list">스코어카드<br>게시판</a></li>
        </ul>
        </li>
       <li><a href="/yeyag/yeyag_list" class=btn1>골프장</a>

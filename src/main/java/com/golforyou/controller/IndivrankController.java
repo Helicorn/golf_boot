@@ -28,9 +28,9 @@ public class IndivrankController {
 	private RankingService rankingService;
 	
 	//개인랭크 페이지
-	@GetMapping("/tier/indivrank")
+	@GetMapping("/indivrank")
 	public ModelAndView indivrank(ScorecardVO sv, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView im = new ModelAndView();
+		ModelAndView im = new ModelAndView("/tier/ranking");
 		response.setContentType("text/html;charset=utf-8");
 		
 		PrintWriter out = response.getWriter();

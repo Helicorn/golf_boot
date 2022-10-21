@@ -20,9 +20,9 @@ public class RankingController {
 	private RankingService rankingService;
 	
 	//랭킹 메인페이지
-	@GetMapping("/tier/ranking")
+	@GetMapping("/ranking")
 	public ModelAndView ranking(RankingVO rv, HttpServletRequest request) {
-		ModelAndView rm = new ModelAndView();
+		ModelAndView rm = new ModelAndView("/tier/ranking");
 		String prov = request.getParameter("prov");
 		
 		int mem=0;

@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 게시판 내용 -->
-	<select id="scb_list" parameterType="scb" resultType="scb">
+	<select id="scb_list" parameterType="scb" resultType="Scb">
 		select * from (
 		select rowNum rNum,sc_no,sc_id,sc_title,sc_hit,sc_ref,sc_step,sc_level,sc_date from(
 		select * from scboard
@@ -51,14 +51,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 내용보기 -->
-	<select id="scb_cont" parameterType="scb" resultType="scb">
+	<select id="scb_cont" parameterType="scb" resultType="Scb">
 		select sc_no,sc_id,sc_title,sc_cont,sc_file,sc_hit from scboard where sc_no=#{sc_no}
 	</select>
 	
 	<!-- 글쓰기 -->
 	<insert id="scb_write">
 		insert into scboard(sc_no,sc_id,sc_title,sc_playdate,sc_cont,sc_file,sc_ref,sc_step,sc_level,sc_date) 
-		values(test_scboard_seq.nextval,#{sc_id},#{sc_title},#{sc_playdate},#{sc_cont},#{sc_file},test_scboard_seq.nextval,0,0,sysdate)
+		values(test_scboard_seq.nextval,#{sc_id},#{sc_title},#{sc_playdate},#{sc_cont},null,test_scboard_seq.nextval,0,0,sysdate)
 	</insert>
 	
 	<!-- 답변레벨 증가 -->
@@ -83,8 +83,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!-- 스코어카드 내용 가져오기 -->
-	<select id="scb_cont2" resultType="scb">
-		select * from scboard where sc_no=#{sc_no} and sc_playdate=#{sc_playdate}
+	<select id="scb_cont2" resultType="Scb">
+		select * from scboard where sc_id=#{sc_id} and sc_playdate=#{sc_playdate}
+	</select>
+	
+	<!-- 관리자 스코어카드 조건갯수 확인 -->
+	<select id="scb_count2" resultType="int">
+		select count(*) from scboard where sc_no=#{sc_no} and sc_playdate=#{sc_playdate}
 	</select>
 	
 	

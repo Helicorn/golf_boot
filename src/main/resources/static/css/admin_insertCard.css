@@ -15,6 +15,27 @@
 	left:40%;
 	width:25%;
 }
+.needTable{
+	position:relative;
+	left:40%;
+	width:25%;
+}
+.needList{
+	width:300px;
+	border-top:1px solid #000;
+	border-bottom:1px solid #000;
+	text-align:center;
+	
+}
+a{
+	text-decoration:none;
+}
+a:link{
+	color:#808080;
+}
+a:hover{
+	color:#56F569;
+}
 .admin_info{
 	position:relative;
 	float:left;

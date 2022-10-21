@@ -12,7 +12,7 @@ public class ScorecardVO {
 	private String s_date;
 	private int s_sort;
 	private int s_bestscore;
-	private double s_avgscore;
+	private double s_sumscore;
 	private int s_updated;
 	
 	private String graph_date;

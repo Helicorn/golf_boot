@@ -48,7 +48,7 @@ public class BoardController {
 	//이진파일 업로드 하는 방법 3가지 이상이 있다고 함. 다른 방법도 찾아보기 
 	@PostMapping("/board_write_ok")
 	public String board_write_ok(BoardVO b, HttpServletRequest request) throws Exception{
-		String saveFolder=request.getRealPath("/resources/upload"); 
+		String saveFolder=request.getRealPath("/upload"); 
 		//이진 파일 업로드 서버 경로 => 톰캣 WAS서버에 의해서 변경된 실제 경로 하위의 upload폴더
 		
 		int fileSize=5*1024*1024; //이진파일 업로드 최대 크기 

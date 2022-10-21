@@ -93,5 +93,22 @@ public class ScBoardDAOImpl implements ScBoardDAO {
 		sqlSession.delete("sc_delCard", sv);
 	}
 
+	@Override
+	public void delCard(ScboardVO sb) {
+		// TODO Auto-generated method stub
+		sqlSession.delete("sc_delCard2", sb);
+	}
+
+	@Override
+	public int getNeedUpdateScorecardCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("sc_needCount");
+	}
+
+	@Override
+	public List<ScorecardVO> getNeedUpdateScorecardList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("sc_needList");
+	}
 	
 }
