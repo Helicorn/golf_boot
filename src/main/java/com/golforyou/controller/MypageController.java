@@ -13,12 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.golforyou.config.auth.PrincipalDetails;
 import com.golforyou.service.MemberService;
 import com.golforyou.service.MypageService;
-import com.golforyou.util.SHA256Util;
-import com.golforyou.vo.MemberVO;
+import com.golforyou.vo.GolforyouMemberNEW;
 import com.golforyou.vo.RankingVO;
 import com.oreilly.servlet.MultipartRequest;
 
@@ -34,7 +36,8 @@ public class MypageController {
 
 	//마이페이지 메인
 	@GetMapping("mypage")
-	public String mypage() {
+	public String mypage(PrincipalDetails principalDetails, HttpServletRequest request, HttpSession session) {
+	
 		return "mypage/main"; //뷰페이지 경로 WEB-INF/views/mypage/main.jsp		
 	}//mypage()
 	
@@ -60,11 +63,11 @@ public class MypageController {
 		
 		}else {
 					
-			MemberVO em=this.memberService.getMember(id); //아이디에 해당하는 회원정보를 dB로 부터 가져옴
+			GolforyouMemberNEW em=this.memberService.getMember(id); //아이디에 해당하는 회원정보를 dB로 부터 가져옴
 
-			String m_phone =em.getM_phone();		
-			String m_email =em.getM_email();
-			String m_addr = em.getM_addr();
+			String m_phone =em.getMPhone();		
+			String m_email =em.getMEmail();
+			String m_addr = em.getMAddr();
 			
 			//ModelAndView m=new ModelAndView();
 			
@@ -89,7 +92,7 @@ public class MypageController {
 	
 	
 	@RequestMapping("profileEdit_ok")
-	public ModelAndView profileEdit_ok(MemberVO m, RankingVO r, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+	public ModelAndView profileEdit_ok(GolforyouMemberNEW m, RankingVO r, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out=response.getWriter();
 		String saveFolder=request.getRealPath("/resources/upload");//이진파일 업로드 실제 경로를 구함.
@@ -113,7 +116,7 @@ public class MypageController {
 		File upFile=multi.getFile("m_file");//첨부할 파일을 가져온다. 
 		if(upFile != null) {//첨부한 파일이 있는 경우
 			String fileName=upFile.getName();//첨부한 파일명을 구함
-			File delFile=new File(saveFolder+m.getM_file()); //삭제할 파일 객체 생성 
+			File delFile=new File(saveFolder+m.getMFile()); //삭제할 파일 객체 생성 
 			if(delFile.exists()) {//삭제할 파일이 존재하면 
 				delFile.delete();//기존 첨부파일 삭제 
 			}
@@ -138,19 +141,19 @@ public class MypageController {
 			String fileDBName="/"+year+"-"+month+"-"+date+"/"+refileName;//데이터베이스에 저장될 레코드 값
 			upFile.renameTo(new File(homedir+"/"+refileName)); //생성된 폴더에 변경된 파일명으로 실제 업로드 
 			
-			m.setM_file(fileDBName);
+			m.setMFile(fileDBName);
 			
 			}else {//수정 첨부파일을 하지 않았을 때
 				String fileDBName="";
-				if(m.getM_file()!=null) {
-					m.setM_file(m.getM_file());
+				if(m.getMFile()!=null) {
+					m.setMFile(m.getMFile());
 												
 				}else {
-					m.setM_file(fileDBName);
+					m.setMFile(fileDBName);
 				}
 			}//수정 첨부파일을 첨부한 경우와 안한 경우 분기 조건문
 		
-		m.setM_id(id); m.setM_phone(m_phone); m.setM_email(m_email); m.setM_addr(m_addr);
+		m.setUsername(id); m.setMPhone(m_phone); m.setMEmail(m_email); m.setMAddr(m_addr);
 		
 		this.mypageService.updateMember(m);//번호를 기준으로 글쓴이, 글제목, 글내용, 첨부파일 수정 
 		this.mypageService.updateProvince(r);
@@ -170,7 +173,7 @@ public class MypageController {
 	}//profile()
 	
 	@RequestMapping("changepwd_ok")
-	public String changepwd_ok(MemberVO m,HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+	public String changepwd_ok(GolforyouMemberNEW m,HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out=response.getWriter();
 					
@@ -194,7 +197,7 @@ public class MypageController {
 	}//withdrawal()
 	
 	@RequestMapping("withdrawal_ok")
-	public String withdrawal_ok(MemberVO m,HttpServletRequest request, HttpServletResponse response, HttpSession session, String salt_pw) throws Exception{	
+	public String withdrawal_ok(GolforyouMemberNEW m,HttpServletRequest request, HttpServletResponse response, HttpSession session, String salt_pw) throws Exception{	
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out=response.getWriter();
 					
@@ -211,21 +214,21 @@ public class MypageController {
 			String m_pw=request.getParameter("m_pw");
 
 			
-			m.setM_id(id); m.setM_delcont(m_delcont); 
+			m.setUsername(id); m.setMDelcont(m_delcont); 
 			
-			String salt = memberService.getSaltById(m.getM_id());
+			String salt = memberService.getSaltById(m.getUsername());
 			System.out.println("salt:" +salt);
 			
 			salt_pw = SHA256Util.getEncrypt(m_pw, salt);
 			System.out.println("dbSaltpw:" +salt_pw);
 			m.setM_pw(salt_pw);
 			
-			this.memberService.getMember(m.getM_id());
+			this.memberService.getMember(m.getUsername());
 			
 			
-			MemberVO db_pw=this.memberService.getMember(id); 
+			GolforyouMemberNEW db_pw=this.memberService.getMember(id); 
 			//id와 비밀번호 대조를 위해 비밀번호 정보를 db에서 가져옴
-				if(!db_pw.getM_pw().equals(m.getM_pw())) {
+				if(!db_pw.getPassword().equals(m.getPassword())) {
 					out.println("<script>");
 					out.println("alert('비밀번호를 다시 확인해주세요');");
 					out.println("history.back();");

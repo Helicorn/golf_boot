@@ -2,15 +2,15 @@
  * member.js
  */
   function join_check() {
-      if ($.trim($('#m_id').val()) == '') {//trim()함수는 양쪽 공백을 제거
+      if ($.trim($('#username').val()) == '') {//trim()함수는 양쪽 공백을 제거
          alert('아이디를 입력하세요!');
-         $('#m_id').val('').focus();
+         $('#username').val('').focus();
          return false;
       }
 
-      if ($.trim($('#m_pwd').val()) == '') {
+      if ($.trim($('#password').val()) == '') {
          alert('비밀번호를 입력하세요!');
-         $('#m_pwd').val('').focus();
+         $('#password').val('').focus();
          return false;
       }
 
@@ -21,21 +21,21 @@
          return false;
       }
       
-      if ($.trim($('#phone').val()) == '') {
+      if ($.trim($('#mPhone').val()) == '') {
          alert('휴대폰 번호를 입력하세요!');
-         $('#phone').val('').focus();
+         $('#mPhone').val('').focus();
          return false;
       }
       
-      if ($.trim($('#m_email').val()) == '') {
+      if ($.trim($('#mEmail').val()) == '') {
          alert('이메일을 입력하세요!');
-         $('#m_email').val('').focus();
+         $('#mEmail').val('').focus();
          return false;
       }
       
-      if ($.trim($('input[name=m_gender]:radio:checked').val()) == '') {
+      if ($.trim($('input[name=mGender]:radio:checked').val()) == '') {
           alert('성별을 선택하세요');
-          $('#m_email').val('').focus();
+          $('#mEmail').val('').focus();
           return false;
        }
        
@@ -48,7 +48,7 @@
    	//아이디 영역을 숨김
    	$m_id=$.trim($("#m_id").val());
    	//1.입력글자 길이 체크
-   	if($m_id.length < 4){
+   	if($username.length < 4){
    		$newtext='<font color="red" size="2"><b>아이디는 4자 이상이어야 합니다.</b></font>';
    		$("#idcheck").text('');
    		//idcheck 아이디 영역 문자열을 초기화
@@ -56,10 +56,10 @@
    		//idcheck 아이디 영역을 보이게 함.
    		$("#idcheck").append($newtext);
    		//idcheck영역에 문자열을 추가
-   		$("#m_id").val('').focus();
+   		$("#username").val('').focus();
    		return false;
    	};
-   	if($m_id.length > 12){
+   	if($username.length > 12){
    		$newtext='<font color="red" size="2"><b>아이디는12자 이하이어야 합니다.</b></font>';
    		$("#idcheck").text('');
    		//idcheck 아이디 영역 문자열을 초기화
@@ -67,7 +67,7 @@
    		//idcheck 아이디 영역을 보이게 함.
    		$("#idcheck").append($newtext);
    		//idcheck영역에 문자열을 추가
-   		$("#m_id").val('').focus();
+   		$("#username").val('').focus();
    		return false;
    	};
    	//2.입력글자 확인
@@ -76,7 +76,7 @@
    		$("#idcheck").text('');
    		$("#idcheck").show();
    		$("#idcheck").append($newtext);
-   		$("#m_id").val('').focus();
+   		$("#username").val('').focus();
    		return false;
    	};
    	
@@ -87,7 +87,7 @@
            type:"POST",//데이터를 서버로 보내는 방법
           //url:"./member/member_idcheck.jsp",    
            url:"/idcheck", //아작스 서버 주소 파일명
-           data: {"id":$m_id},  //좌측 id 피라미터 이름에 우측 $m_id변수값을 저장
+           data: {"id":$mId},  //좌측 id 피라미터 이름에 우측 $m_id변수값을 저장
            datatype:"int",//서버의 실행된 결과값을 사용자로 받아오는 방법
            success: function (data) {//success는 아작스로 받아오는것이 성공했을경우
            	//서버 데이터를 data변수에 저장
@@ -96,7 +96,7 @@
          		$("#idcheck").text('');
            	$("#idcheck").show();
            	$("#idcheck").append($newtext);          		
-             	$("#m_id").val('').focus();
+             	$("#username").val('').focus();
              	return false;
    	     
          	  }else{//중복 아이디가 아니면
@@ -104,7 +104,7 @@
          		$("#idcheck").text('');
          		$("#idcheck").show();
          		$("#idcheck").append($newtext);
-         		$("#m_pw").focus();
+         		$("#password").focus();
          	  }  	    	  
            },
        	  error:function(){//비동기식 아작스로 서버디비 데이터를
@@ -141,7 +141,7 @@
          		$("#emailcheck").text('');
          		$("#emailcheck").show();
          		$("#emailcheck").append($newtext);
-         		$("#m_pw").focus(); //포커스값 재설정 하기
+         		$("#password").focus(); //포커스값 재설정 하기
          	  }  	    	  
            },
        	  error:function(){//비동기식 아작스로 서버디비 데이터를

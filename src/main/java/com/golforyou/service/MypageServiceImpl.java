@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.golforyou.dao.MypageDAO;
-import com.golforyou.vo.MemberVO;
+import com.golforyou.vo.GolforyouMemberNEW;
 import com.golforyou.vo.RankingVO;
 
 @Service
@@ -16,7 +16,7 @@ public class MypageServiceImpl implements MypageService {
 	
 	
 	@Override
-	public void updateMember(MemberVO id) {
+	public void updateMember(GolforyouMemberNEW id) {
 
 		this.mypageDao.updateMember(id);
 	}

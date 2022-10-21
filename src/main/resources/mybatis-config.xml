@@ -6,12 +6,12 @@
 	
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.golforyou.vo.MemberVO" alias="member"/>
+		<typeAlias type="com.golforyou.vo.GolforyouMemberNEW" alias="member"/>
         <typeAlias type="com.golforyou.vo.BoardVO" alias="board"/>
         <typeAlias type="com.golforyou.vo.RankingVO" alias="rank"/> 
         <typeAlias type="com.golforyou.vo.ScboardVO" alias="Scb"/>
         <typeAlias type="com.golforyou.vo.ScorecardVO" alias="sc"/>   
         <typeAlias type="com.golforyou.vo.ClassVO" alias="class"/>   
+       
 	</typeAliases>
 </configuration>
-

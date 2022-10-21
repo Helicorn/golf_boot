@@ -5,7 +5,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="member">
+   <select id="selectUserById" resultType="member">
+        <![CDATA[
+            SELECT
+                *
+            FROM
+                Golforyou_MemberNEW
+            WHERE
+                username=#{username}
+        ]]>
+    </select>
 
+    <!--com.golforyou.config.auth.PrincipalDetails  -->
+    
 		<select id="member_read" parameterType="member" resultType="member"> 	 
  	 		select * from golformemberNew where m_id=#{m_id,jdbcType=VARCHAR} and m_state=1
  	 	</select>
