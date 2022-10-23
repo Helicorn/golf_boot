@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+<h2>DB에 회원정보가 없음</h2>
 <a href="/logout">[로그아웃]</a>
 <a href="/login">[로그인]</a>
 </body>

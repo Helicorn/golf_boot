@@ -1,7 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="/css/login.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
 <div class="clear"></div>
+
 <html>
 <head>
 
@@ -52,7 +55,7 @@
 <input type="password" name="password" id="password" class="textField" placeholder="비밀번호"><br>
 <input type=submit class="submitBtn" value=로그인>
 <input type=checkbox name="remember-me" id="remember-me" class="checkbox" value=로그인상태유지><span>로그인 상태 유지</span><br>
-<div><a href="/oauth2/authorizaion/google"><i class="fab fa-google"></i>구글로 로그인</a></div>
+<div><a href="/oauth2/authorization/google"><i class="fab fa-google"></i>구글로 로그인</a></div>
 </form> 
 <div class="links">
 <input type="button" class="a" value="회원가입" onclick="location='/join';" />
