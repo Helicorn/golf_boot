@@ -53,6 +53,7 @@ public class LoginController {
 		
 		System.out.println("authentication:"+oauth2User.getAttributes());
 		System.out.println("oauth2user:"+oauth.getAttributes());
+		request.getSession().setAttribute("id", oauth2User.getName());
 		//request.getSession().setAttribute("id", oauth2User.getAttribute);
 		return "redirect:/";
 	}
