@@ -14,8 +14,8 @@ import com.golforyou.vo.GolforyouMemberNEW;
 
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
-	
-	private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -32,15 +32,19 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 	
 		String mProvider = userRequest.getClientRegistration().getClientId();//google
 		String mProviderid = oauth2User.getAttribute("sub");
-		String username = mProvider+"_"+mProviderid; //google_***
-		String password = bCryptPasswordEncoder.encode("겟인데어");
+		String username = oauth2User.getAttribute("name"); //mProvider+"_"+mProviderid; //google_***
+		String password = bCryptPasswordEncoder.encode("golforyou");
 		String mEmail = oauth2User.getAttribute("email");
 		String mRole = "ROLE_USER";
 		
 		GolforyouMemberNEW userEntity = userRepository.findByUsername(username);
-
+		System.out.println("username: "+username);
+		System.out.println("mProvider: "+mProvider);
+		System.out.println("mProviderid: "+mProviderid);
+		
 		if(userEntity == null) {
 			System.out.println("구글로그인이 최초입니다.");
+			System.out.println("userEntity: "+userEntity);
 			userEntity = GolforyouMemberNEW.builder()
 					.username(username)
 					.password(password)
@@ -49,6 +53,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 					.mProvider(mProvider)
 					.mProviderid(mProviderid)
 					.build();
+			System.out.println("가입이 완료되었습니다");
 		}else {
 			System.out.println("구글가입이 이미 되어있습니다.");
 		}

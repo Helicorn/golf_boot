@@ -32,10 +32,7 @@ public class SecurityConfig{
 	
 	
 	//해당 메서드의 리턴되는 오브젝트 IoC로 등록해준다.
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
 	//1. 코드 받기(인증), 2.액세스 토큰 받기(권한) 3.사용자 프로필 정보를 가져와서 4.정보를 토대로 회원가입을 자동으로 진행
 	

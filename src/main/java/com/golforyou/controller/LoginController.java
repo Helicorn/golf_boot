@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -101,6 +102,14 @@ public class LoginController {
 
 	@RequestMapping("/login")
 	public String login(PrincipalDetails principalDetails, HttpSession session) {
+		
+//		if(session==null){
+//			return "member/login";
+//		
+//		}else {
+//			return "redirect:/";   //세션이 있으면 index로 
+//		}
+		
 		return "member/login";
 	}
 	
@@ -130,7 +139,15 @@ public class LoginController {
 //	}
 
 	@GetMapping("/join")
-	public String join() {
+	public String join(PrincipalDetails principalDetails, HttpSession session) {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+//		System.out.println("auth"+auth);
+//		if(auth==null){
+//			return "member/join";
+//		
+//		}else {
+//			return "redirect:/";   //세션이 있으면 index로 
+//		}
 		return "member/join";
 	}
 
