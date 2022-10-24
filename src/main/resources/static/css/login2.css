@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.googleloginBtn {
+  font-size: 14px;
+  border: none;
+  padding: 10px 10px 10px 10px;
+  width: 260px;
+  background-color: #ffffff;
+  margin-bottom: 20px;
+  color: #000000;
+  box-shadow: 0px 1px 1px 0px gray;
+	cursor: pointer;
+}

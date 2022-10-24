@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import com.golforyou.vo.GolforyouMemberNEW;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 //시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행시킨다. 
 //로그인을 진행이 완료가 되면 session을 만들어줍니다. (Security ContextHolder)
@@ -21,13 +22,22 @@ import lombok.Data;
 //Security Session => Authentication => UserDetails(PrincipalDetails) 
 @SuppressWarnings("serial")
 @Data
+@NoArgsConstructor
 public class PrincipalDetails implements UserDetails, OAuth2User{
 
 	private GolforyouMemberNEW member; //콤포지션 
-	public PrincipalDetails(GolforyouMemberNEW member) {
-		this.member=member;
+	private Map<String,Object> attributes;
+	
+	//일반로그인
+		public PrincipalDetails(GolforyouMemberNEW member) {
+			this.member=member;
 
-	}
+		}
+	//OAuth로그인 
+		public PrincipalDetails(GolforyouMemberNEW member,Map<String,Object> attributes) {
+			this.member=member;
+			this.attributes=attributes;
+		}
 	
 	//해당 User의 권한을 리턴하는 곳! 
 //	@Override
@@ -90,15 +100,15 @@ public class PrincipalDetails implements UserDetails, OAuth2User{
 	//Oauth
 	@Override
 	public Map<String, Object> getAttributes() {
-	
-		return null;
+		//object화 하지 않고 통째로 넣은 이유, 
+		return attributes;
 	}
 	
 	//Oauth
 	@Override
 	public String getName() {
 		
-		return null;
+		return (String) attributes.get("sub");
 	}
 
 }

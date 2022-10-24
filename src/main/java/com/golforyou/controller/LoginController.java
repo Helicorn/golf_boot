@@ -1,12 +1,9 @@
 package com.golforyou.controller;
 
-import javax.persistence.metamodel.SetAttribute;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,8 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.golforyou.config.auth.PrincipalDetails;
@@ -28,8 +23,6 @@ import com.golforyou.vo.GolforyouMemberNEW;
 
 @Controller
 public class LoginController {
-	
-	
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -53,7 +46,7 @@ public class LoginController {
 	}
 	
 	@GetMapping("/test/oauth/login")
-	public @ResponseBody String testOauthLogin(
+	public String testOauthLogin(HttpServletRequest request,
 			Authentication authentication,
 			@AuthenticationPrincipal OAuth2User oauth){
 		System.out.println("/test/oauth/login================");
@@ -61,8 +54,9 @@ public class LoginController {
 		
 		System.out.println("authentication:"+oauth2User.getAttributes());
 		System.out.println("oauth2user:"+oauth.getAttributes());
-		
-		return "rediect:/";
+		request.getSession().setAttribute("id", oauth2User.getName());
+		//request.getSession().setAttribute("id", oauth2User.getAttribute);
+		return "redirect:/";
 	}
 	
 	
@@ -71,8 +65,11 @@ public class LoginController {
 		return "index";	
 	}
 	
+	
+	//OAuth로 로그인 해도, 일반 로그인을 해도 PrincipalDetails
 	@GetMapping("/user")
-	public @ResponseBody String user() {
+	public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		System.out.println("principalDetails:"+principalDetails.getUsername());
 		return "user";
 	}
 	
@@ -89,7 +86,6 @@ public class LoginController {
 //
 //	        return "/member/login";
 //	    }
-//	 
 	 
 	 
 	@RequestMapping("/access_denied")
@@ -103,31 +99,26 @@ public class LoginController {
 		return "manager";
 	}
 	
-	//스프링 시큐리티가 해당 주소를 낚아채버림 
-//	
-//	@GetMapping("/login")
-//	public String login(PrincipalDetails principalDetails, HttpSession session) {
-//		
-//	//	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//	//	GolforyouMemberNEW member = (GolforyouMemberNEW) auth.getPrincipal();
-//		
-//
-//		return "member/login";
-//	}
-//	
-	
+
 	@RequestMapping("/login")
 	public String login(PrincipalDetails principalDetails, HttpSession session) {
-
+		
+//		if(session==null){
+//			return "member/login";
+//		
+//		}else {
+//			return "redirect:/";   //세션이 있으면 index로 
+//		}
+		
 		return "member/login";
 	}
-
-
+	
+	//스프링 시큐리티가 해당 주소를 낚아채버림 
 	@RequestMapping("/loginOk")
 	public String login_ok() {
-		
 		return "redirect:/test/login";
 	}
+	
 	
 	@RequestMapping("/index")
 	public String loginandSession(HttpServletRequest request, HttpSession session,
@@ -135,13 +126,12 @@ public class LoginController {
 			@AuthenticationPrincipal PrincipalDetails userDetails){
 		PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 		
-		System.out.println("authentication:"+principalDetails.getUsername()); //getUser 로 호출하고싶은데..
+		System.out.println("authentication:"+principalDetails.getUsername()); 
 		System.out.println("userDetails:"+userDetails.getUsername());
 		request.getSession().setAttribute("id", principalDetails.getUsername());
 	
 		return "redirect:/";
 	}
-	
 //	@RequestMapping("/login_ok")
 //	public String loginOk(GolforyouMemberNEW member,HttpSession session) {
 //	
@@ -149,7 +139,15 @@ public class LoginController {
 //	}
 
 	@GetMapping("/join")
-	public String join() {
+	public String join(PrincipalDetails principalDetails, HttpSession session) {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+//		System.out.println("auth"+auth);
+//		if(auth==null){
+//			return "member/join";
+//		
+//		}else {
+//			return "redirect:/";   //세션이 있으면 index로 
+//		}
 		return "member/join";
 	}
 

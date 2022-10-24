@@ -1,48 +1,44 @@
 package com.golforyou.config;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.golforyou.config.auth.PrincipalDetailsService;
 import com.golforyou.config.oauth.PrincipalOauth2UserService;
 
+import lombok.AllArgsConstructor;
 
-@Configuration
-@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록됨
+@Configuration //@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록됨, SecurityAutoConfigurationd에서 자동 추가된다고 해서 잠시 주석처리함
+@EnableWebSecurity 
 @EnableGlobalMethodSecurity(securedEnabled=true,prePostEnabled=true) //secure 애노테이션 활성화, preAuthorize 어노테이션 활성화 
+@ConditionalOnDefaultWebSecurity
+@AllArgsConstructor 
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfig{
 	
 	@Autowired
 	private PrincipalOauth2UserService principalOauth2UserService;
 	
-	@Autowired
-	private PrincipalDetailsService principalDetailsService;
-
+	
 	//해당 메서드의 리턴되는 오브젝트 IoC로 등록해준다.
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-//	@Bean
-//	public UserDetailsService
-//	principalDetailsService() {
-//		return new PrincipalDetailsService();
-//	}
-	
-	//1. 코드 받기(인증), 2.액세스 토큰 받기(권한) 
-	//3.사용자 프로필 정보를 가져와서 4.정보를 토대로 회원가입을 자동으로 진행시키기도 함
-	//4-2 이메일, 전화번호, 이름, 아이디 가 저장되어있는데 쇼핑몰이면 집주소, 백화점몰이면 vip등급인지 일반등급이면 추가정보를 입력해야한다면 
+
+
+	//1. 코드 받기(인증), 2.액세스 토큰 받기(권한) 3.사용자 프로필 정보를 가져와서 4.정보를 토대로 회원가입을 자동으로 진행
 	
 	@Bean
+	@Order(0)
+	@Primary
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
 		http.csrf().disable();
@@ -66,11 +62,12 @@ public class SecurityConfig{
 			.deleteCookies("JSESSIONID", "remember-me") // 로그아웃 후 쿠키 삭제
 			.and()
 		.oauth2Login()
-			.loginPage("/login")			 
+			.loginPage("/login")	
+			.defaultSuccessUrl("/test/oauth/login")
 			.userInfoEndpoint()
 			.userService(principalOauth2UserService);
 //			.and()
-		//구글 로그인이 완료된 뒤의 후처리가 필요함 . Tip 코드 X, (액세스 토큰+사용자 프로필 정보 O)
+		//구글 로그인이 완료된 뒤의 후처리가 필요함 . 코드 X, (액세스 토큰+사용자 프로필 정보 O)
 //		.rememberMe()
 //			.key("rememberKey")
 //		.rememberMeCookieName("rememberMeCookieName")
@@ -82,7 +79,7 @@ public class SecurityConfig{
 		
 	}
 	 @Bean
-	    public WebSecurityCustomizer webSecurityCustomizer() {
+	    public WebSecurityCustomizer webSecurityCustomizer() throws Exception{
 	        return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
 	    }
     
