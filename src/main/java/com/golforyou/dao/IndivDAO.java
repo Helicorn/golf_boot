@@ -9,7 +9,7 @@ public interface IndivDAO {
 
 	String getPoint(String id);
 
-	String getHandicap(String id);
+	List<String> getHandicap(String id);
 
 	List<Integer> getPutting(String id);
 
@@ -25,7 +25,7 @@ public interface IndivDAO {
 
 	List<Integer> getRange(String id);
 
-	int getSumPoint(String id);
+	List<Integer> getSumPoint(String id);
 
 	void autoInsert(ScboardVO sb);
 

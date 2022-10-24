@@ -1,4 +1,4 @@
-package com.golforyou.controller;
+package com.golforyou.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

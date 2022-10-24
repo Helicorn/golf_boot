@@ -22,7 +22,7 @@ public class IndivServiceImpl implements IndivService {
 	}
 
 	@Override
-	public String getHandicap(String id) {
+	public List<String> getHandicap(String id) {
 		// TODO Auto-generated method stub
 		return indivDAO.getHandicap(id);
 	}
@@ -70,7 +70,7 @@ public class IndivServiceImpl implements IndivService {
 	}
 
 	@Override
-	public int getSumPoint(String id) {
+	public List<Integer> getSumPoint(String id) {
 		// TODO Auto-generated method stub
 		return indivDAO.getSumPoint(id);
 	}

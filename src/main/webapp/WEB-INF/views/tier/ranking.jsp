@@ -7,6 +7,9 @@
 	int mem = (Integer)request.getAttribute("mem");
 	
 	String[] fileaddr = new String[mem];
+	for(int i=0 ; i<mem ; ++i){
+		fileaddr[i] = (String)request.getAttribute("fileaddr"+i);
+	}
 	
 	String[] rankid = new String[mem];
 	for(int i=0 ; i<mem ; ++i){
@@ -192,14 +195,12 @@
 		$('#rDriver_'+<%=i%>).append("<%=bestrange[i-1]%>");
 		</script>
 		<%		
-		//fileaddr[i-1] = mdao.fileinfo(rankid);
 	}
 		
 	%>
 	
 	<%
 	for(int i=0 ; i<mem ; ++i){
-		//if(fileaddr[i] != null){
 		%>
 		<script>
 		$("#rProfile_"+<%=i+1%>).css({
@@ -209,7 +210,6 @@
 		});
 		</script>
 		<%
-		//}
 	}
 	%>
 	<script>

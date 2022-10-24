@@ -22,9 +22,9 @@ public class IndivDAOImpl implements IndivDAO {
 	}
 
 	@Override
-	public String getHandicap(String id) {
+	public List<String> getHandicap(String id) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("sc_handicap", id);
+		return sqlSession.selectList("sc_handicap", id);
 	}
 
 	@Override
@@ -70,9 +70,9 @@ public class IndivDAOImpl implements IndivDAO {
 	}
 
 	@Override
-	public int getSumPoint(String id) {
+	public List<Integer> getSumPoint(String id) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("sc_sumpoint", id);
+		return sqlSession.selectList("sc_sumpoint", id);
 	}
 
 	@Override

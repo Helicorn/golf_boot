@@ -27,13 +27,13 @@ public class RankingController {
 		
 		int mem=0;
 		
-		mem = rankingService.memberCount();
+		mem = rankingService.memberCount(); //랭킹에 표시될 회원 수
 		
-		List<String> rankid = new ArrayList<>();
+		List<String> rankid = new ArrayList<>(); //회원 아이디
 		//List<Integer> count = new ArrayList<Integer>();
-		List<Integer> rankpoint = new ArrayList<Integer>();
-		List<Integer> bestrange = new ArrayList<Integer>();
-		List<Integer> province = new ArrayList<Integer>();
+		List<Integer> rankpoint = new ArrayList<Integer>(); //총점
+		List<Integer> bestrange = new ArrayList<Integer>(); //최대비거리
+		List<Integer> province = new ArrayList<Integer>(); //회원 주요활동장소
 		rankid = rankingService.getId();
 		for(int i=0 ; i<mem ; ++i) {
 			rm.addObject("rankid"+i,rankid.get(i));

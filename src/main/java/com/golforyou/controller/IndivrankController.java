@@ -36,27 +36,32 @@ public class IndivrankController {
 		PrintWriter out = response.getWriter();
 		
 		String id = request.getParameter("rId");
-		if(id == null) {
+		if(id == null) { //request로 받아올 아이디가 없다면 = ranking페이지에서 클릭해서 들어온게 아니라면
 			HttpSession session = request.getSession();
-			if((String)session.getAttribute("id") == null) {
+			if((String)session.getAttribute("id") == null) { //로그인한 상태가 아니라면
 				out.println("<script>");
 				out.println("alert('로그인부터 하세요')");
 				out.println("history.back();");
 				out.println("</script>");
-			}else {
+			}else { //로그인한 상태면
 				id = (String)session.getAttribute("id");
 			}			
 		}
 		sv.setS_id(id);
 		
-		String rPoint = request.getParameter("rPoint_");
+		String rPoint = request.getParameter("rPoint_"); //당일 얻은 점수
 		if(rPoint == null) {
 			rPoint = indivService.getPoint(id);
 		}
-		String rankno = request.getParameter("rankno");
+		String rankno = request.getParameter("rankno"); //순위
 		
-		int getCount = rankingService.playCount(id);
-		String s_handicap = indivService.getHandicap(id);
+		int getCount = rankingService.playCount(id); 
+		//String s_handicap = indivService.getHandicap(id);
+		List<String> s_handicapList = indivService.getHandicap(id);
+		String s_handicap = "";
+		if(s_handicapList.size() > 0) {
+			s_handicap = s_handicapList.get(0);
+		}		 
 		if(rankno == null) {
 			int num = 1;
 			
@@ -79,6 +84,7 @@ public class IndivrankController {
 		double avgPutting = (double)sumPutting/getCount;
 		String strPutting = String.format("%.2f", avgPutting);
 		
+		/* 그래프에 표시될 월별 골프 플레이 횟수 */
 		Calendar cal = Calendar.getInstance();
 		int intyear = cal.get(Calendar.YEAR);
 		String year = Integer.toString(intyear);
@@ -122,10 +128,10 @@ public class IndivrankController {
 			}
 		}
 		
-		List<String> viewDate = new ArrayList<>();
-		List<String> viewLocation = new ArrayList<>();
-		List<Integer> viewBestScore = new ArrayList<>();
-		List<Integer> viewRange = new ArrayList<>();
+		List<String> viewDate = new ArrayList<>(); //플레이한 날
+		List<String> viewLocation = new ArrayList<>(); //플레이한 장소
+		List<Integer> viewBestScore = new ArrayList<>(); //그날 최고 득점
+		List<Integer> viewRange = new ArrayList<>(); //그날 최대비거리
 		for(int i=0 ; i<getCount ; ++i) {
 			viewDate = indivService.getDate(id);
 			viewLocation = indivService.getLocation(id);
@@ -138,7 +144,14 @@ public class IndivrankController {
 			im.addObject("viewRange"+i, viewRange.get(i));
 		}
 		
-		int point = indivService.getSumPoint(id);
+		//int point = indivService.getSumPoint(id); //티어매기기용 총합점수
+		List<Integer> pointList = indivService.getSumPoint(id);
+		int point = 0;
+		for(int i=0 ; i<pointList.size() ; ++i) {
+			if(pointList.get(i) != null) {
+				point += pointList.get(i);
+			}			
+		}
 		String tierURL = null;
 		String tierStr = null;
 		
